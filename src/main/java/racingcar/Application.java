@@ -10,12 +10,22 @@ public class Application {
         // TODO: 프로그램 구현
         System.out.println("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)");
         String carNames = Console.readLine();
-        System.out.println("시도할 횟수는 몇 회인가요?");
-        String inputAttempt = Console.readLine();
-        int attemptCnt = Integer.parseInt(inputAttempt);
-        System.out.println();
+
+        checkInputCarNames(carNames);
+
+        int attemptCnt = 0;
+        try {
+            System.out.println("시도할 횟수는 몇 회인가요?");
+            String inputAttempt = Console.readLine();
+            attemptCnt = Integer.parseInt(inputAttempt);
+            System.out.println();
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("시도할 횟수가 잘못 입력되었습니다");
+        }
 
         String[] nameSplit = splitCarNamesByComma(carNames);
+
+        checkCarNames(nameSplit);
 
         Map<String, String> cars = moveOrStop(nameSplit, attemptCnt);
 
@@ -37,7 +47,11 @@ public class Application {
     public static Map<String, String> moveOrStop(String[] nameSplit, int attemptCnt) {
         Map<String, String> cars = new LinkedHashMap<>();
         for (String name : nameSplit) {
-            cars.put(name.trim(), "");
+            if (cars.containsKey(name)) {
+                throw new IllegalArgumentException("자동차 이름이 중복되었습니다.");
+            } else {
+                cars.put(name.trim(), "");
+            }
         }
 
         for (int i = 0; i < attemptCnt; i++) {
@@ -78,4 +92,17 @@ public class Application {
         return winners;
     }
 
+    public static void checkCarNames(String[] nameSplit) {
+        for (String name : nameSplit) {
+            if (name.length() > 5) {
+                throw new IllegalArgumentException("입력된 자동차 이름이 5자를 초과하였습니다.");
+            }
+        }
+    }
+
+    public static void checkInputCarNames(String carNames) {
+        if (carNames == null || carNames.isBlank()) {
+            throw new IllegalArgumentException("자동차 이름이 입력되지 않았습니다.");
+        }
+    }
 }
