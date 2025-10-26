@@ -1,9 +1,9 @@
 package racingcar;
 
 import camp.nextstep.edu.missionutils.Console;
+import camp.nextstep.edu.missionutils.Randoms;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Application {
     public static void main(String[] args) {
@@ -13,19 +13,69 @@ public class Application {
         System.out.println("시도할 횟수는 몇 회인가요?");
         String inputAttempt = Console.readLine();
         int attemptCnt = Integer.parseInt(inputAttempt);
+        System.out.println();
 
         String[] nameSplit = splitCarNamesByComma(carNames);
 
-        List<String> winners = Arrays.asList(nameSplit);
-        output(winners);
+        Map<String, String> cars = moveOrStop(nameSplit, attemptCnt);
+
+        int maxLength = findMaxLength(cars);
+
+        List<String> winners = findWinners(cars, maxLength);
+
+        outputWinner(winners);
     }
 
     public static String[] splitCarNamesByComma(String carNames) {
         return carNames.split(",");
     }
 
-    public static void output(List<String> winners) {
+    public static void outputWinner(List<String> winners) {
         System.out.println("최종 우승자 : " + String.join(", ",winners));
+    }
+
+    public static Map<String, String> moveOrStop(String[] nameSplit, int attemptCnt) {
+        Map<String, String> cars = new LinkedHashMap<>();
+        for (String name : nameSplit) {
+            cars.put(name.trim(), "");
+        }
+
+        for (int i = 0; i < attemptCnt; i++) {
+            for (String name : cars.keySet()) {
+                int rand = Randoms.pickNumberInRange(0, 9);
+                if (rand >= 4) {
+                    cars.put(name, cars.get(name) + "-");
+                }
+            }
+            outputMoveResult(cars);
+        }
+        return cars;
+    }
+
+    public static void outputMoveResult(Map<String, String> cars) {
+        System.out.println("실행 결과");
+        for (String name : cars.keySet()) {
+            System.out.println(name + " : " + cars.get(name));
+        }
+        System.out.println();
+    }
+
+    public static int findMaxLength(Map<String, String> cars) {
+
+        return cars.values().stream()
+                .mapToInt(String::length)
+                .max()
+                .orElse(0);
+    }
+
+    public static List<String> findWinners(Map<String, String> cars, int maxLength) {
+        List<String> winners = new ArrayList<>();
+        for (String name : cars.keySet()) {
+            if (cars.get(name).length() == maxLength) {
+                winners.add(name);
+            }
+        }
+        return winners;
     }
 
 }
