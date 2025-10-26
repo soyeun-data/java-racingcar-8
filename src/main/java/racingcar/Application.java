@@ -3,6 +3,7 @@ package racingcar;
 import camp.nextstep.edu.missionutils.Console;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class Application {
     public static void main(String[] args) {
@@ -14,11 +15,17 @@ public class Application {
         int attemptCnt = Integer.parseInt(inputAttempt);
 
         String[] nameSplit = splitCarNamesByComma(carNames);
-        System.out.println(Arrays.toString(nameSplit));
+
+        List<String> winners = Arrays.asList(nameSplit);
+        output(winners);
     }
 
     public static String[] splitCarNamesByComma(String carNames) {
         return carNames.split(",");
+    }
+
+    public static void output(List<String> winners) {
+        System.out.println("최종 우승자 : " + String.join(", ",winners));
     }
 
 }
