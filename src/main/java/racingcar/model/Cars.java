@@ -23,10 +23,9 @@ public class Cars {
         return cars.stream().anyMatch(car -> car.getName().equals(name));
     }
 
-    public void race() {
+    public void race(MoveStrategy moveStrategy) {
         for (Car car : cars) {
-            int rand = Randoms.pickNumberInRange(0, 9);
-            if (rand >= 4) {
+            if (moveStrategy.movable()) {
                 car.move();
             }
         }

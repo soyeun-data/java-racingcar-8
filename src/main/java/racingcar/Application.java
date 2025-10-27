@@ -2,9 +2,7 @@ package racingcar;
 
 import camp.nextstep.edu.missionutils.Console;
 import camp.nextstep.edu.missionutils.Randoms;
-import racingcar.model.Car;
-import racingcar.model.Cars;
-import racingcar.model.Parser;
+import racingcar.model.*;
 import racingcar.view.Input;
 import racingcar.view.Output;
 
@@ -16,7 +14,6 @@ public class Application {
         Input input = new Input();
         Output output = new Output();
         Parser parser = new Parser();
-
         String carNames = input.readCarNames();
         int attemptCnt = input.readAttemptCnt();
 
@@ -27,9 +24,10 @@ public class Application {
         checkCarNames(nameSplit);
 
         Cars cars = new Cars(nameSplit);
+        MoveStrategy moveStrategy = new RandomMoveStrategey();
 
         for (int i = 0; i < attemptCnt; i++) {
-            cars.race();
+            cars.race(moveStrategy);
             output.printMoveResult(cars.getCars());
         }
 
