@@ -1,13 +1,15 @@
 package racingcar.view;
 
+import racingcar.model.Car;
+
 import java.util.List;
 import java.util.Map;
 
 public class Output {
-    public void printMoveResult(Map<String, String> cars) {
+    public void printMoveResult(List<Car> cars) {
         System.out.println("실행 결과");
-        for (String name : cars.keySet()) {
-            System.out.println(name + " : " + cars.get(name));
+        for (Car car: cars) {
+            System.out.println(car);
         }
         System.out.println();
     }

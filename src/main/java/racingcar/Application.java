@@ -2,6 +2,7 @@ package racingcar;
 
 import camp.nextstep.edu.missionutils.Console;
 import camp.nextstep.edu.missionutils.Randoms;
+import racingcar.model.Car;
 import racingcar.model.Parser;
 import racingcar.view.Input;
 import racingcar.view.Output;
@@ -24,7 +25,7 @@ public class Application {
 
         checkCarNames(nameSplit);
 
-        Map<String, String> cars = moveOrStop(nameSplit, attemptCnt, output);
+        List<Car> cars = moveOrStop(nameSplit, attemptCnt, output);
 
         int maxLength = findMaxLength(cars);
 
@@ -34,21 +35,22 @@ public class Application {
     }
 
 
-    public static Map<String, String> moveOrStop(String[] nameSplit, int attemptCnt, Output output) {
-        Map<String, String> cars = new LinkedHashMap<>();
-        for (String name : nameSplit) {
-            if (cars.containsKey(name)) {
+    public static List<Car> moveOrStop(String[] nameSplit, int attemptCnt, Output output) {
+        List<Car> cars = new ArrayList<>();
+
+        for (String rawName : nameSplit) {
+            String name = rawName.trim();
+            if (cars.stream().anyMatch(car -> car.getName().equals(name))) {
                 throw new IllegalArgumentException("자동차 이름이 중복되었습니다.");
-            } else {
-                cars.put(name.trim(), "");
             }
+            cars.add(new Car(name));
         }
 
         for (int i = 0; i < attemptCnt; i++) {
-            for (String name : cars.keySet()) {
+            for (Car car : cars) {
                 int rand = Randoms.pickNumberInRange(0, 9);
                 if (rand >= 4) {
-                    cars.put(name, cars.get(name) + "-");
+                    car.move();
                 }
             }
             output.printMoveResult(cars);
@@ -56,19 +58,19 @@ public class Application {
         return cars;
     }
 
-    public static int findMaxLength(Map<String, String> cars) {
+    public static int findMaxLength(List<Car> cars) {
 
-        return cars.values().stream()
-                .mapToInt(String::length)
+        return cars.stream()
+                .mapToInt(Car::getPosition)
                 .max()
                 .orElse(0);
     }
 
-    public static List<String> findWinners(Map<String, String> cars, int maxLength) {
+    public static List<String> findWinners(List<Car> cars, int maxLength) {
         List<String> winners = new ArrayList<>();
-        for (String name : cars.keySet()) {
-            if (cars.get(name).length() == maxLength) {
-                winners.add(name);
+        for (Car car : cars) {
+            if (car.getPosition() == maxLength) {
+                winners.add(car.getName());
             }
         }
         return winners;
