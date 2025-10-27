@@ -42,11 +42,4 @@ public class Cars {
                 .orElse(0);
     }
 
-    public List<String> findWinners() {
-        int maxPosition = getMaxPosition();
-        return cars.stream()
-                .filter(car -> car.getPosition() == maxPosition)
-                .map(Car::getName)
-                .toList();
-    }
 }

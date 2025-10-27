@@ -31,7 +31,8 @@ public class Application {
             output.printMoveResult(cars.getCars());
         }
 
-        output.printWinner(cars.findWinners());
+        List<String> winners = FindWinners.findWinners(cars);
+        output.printWinner(winners);
     }
 
     public static void checkCarNames(String[] nameSplit) {
