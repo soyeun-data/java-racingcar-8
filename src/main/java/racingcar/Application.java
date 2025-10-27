@@ -3,6 +3,7 @@ package racingcar;
 import camp.nextstep.edu.missionutils.Console;
 import camp.nextstep.edu.missionutils.Randoms;
 import racingcar.model.*;
+import racingcar.validator.InputValidator;
 import racingcar.view.Input;
 import racingcar.view.Output;
 
@@ -17,11 +18,11 @@ public class Application {
         String carNames = input.readCarNames();
         int attemptCnt = input.readAttemptCnt();
 
-        checkInputCarNames(carNames);
+        InputValidator.checkInputCarNames(carNames);
 
         String[] nameSplit = parser.splitCarNamesByComma(carNames);
 
-        checkCarNames(nameSplit);
+        InputValidator.checkCarNames(nameSplit);
 
         Cars cars = new Cars(nameSplit);
         MoveStrategy moveStrategy = new RandomMoveStrategey();
@@ -33,19 +34,5 @@ public class Application {
 
         List<String> winners = FindWinners.findWinners(cars);
         output.printWinner(winners);
-    }
-
-    public static void checkCarNames(String[] nameSplit) {
-        for (String name : nameSplit) {
-            if (name.length() > 5) {
-                throw new IllegalArgumentException("입력된 자동차 이름이 5자를 초과하였습니다.");
-            }
-        }
-    }
-
-    public static void checkInputCarNames(String carNames) {
-        if (carNames == null || carNames.isBlank()) {
-            throw new IllegalArgumentException("자동차 이름이 입력되지 않았습니다.");
-        }
     }
 }
