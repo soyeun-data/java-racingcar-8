@@ -1,11 +1,11 @@
 package racingcar.controller;
 
 import racingcar.model.*;
+import racingcar.model.moveStrategy.MoveStrategy;
+import racingcar.model.moveStrategy.RandomMoveStrategy;
 import racingcar.validator.InputValidator;
 import racingcar.view.Input;
 import racingcar.view.Output;
-
-import java.util.List;
 
 public class RacingCarController {
     Input input = new Input();
@@ -23,7 +23,7 @@ public class RacingCarController {
         InputValidator.checkCarNames(nameSplit);
 
         Cars cars = new Cars(nameSplit);
-        MoveStrategy moveStrategy = new RandomMoveStrategey();
+        MoveStrategy moveStrategy = new RandomMoveStrategy();
 
         RacingGame racingGame = new RacingGame(cars, attemptCnt, moveStrategy, output);
         racingGame.play();

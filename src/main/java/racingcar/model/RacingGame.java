@@ -1,5 +1,6 @@
 package racingcar.model;
 
+import racingcar.model.moveStrategy.MoveStrategy;
 import racingcar.view.Output;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package racingcar.model;
 
-import camp.nextstep.edu.missionutils.Randoms;
+import racingcar.model.moveStrategy.MoveStrategy;
 
 import java.util.ArrayList;
 import java.util.Collections;

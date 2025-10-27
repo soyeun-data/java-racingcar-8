@@ -1,8 +1,8 @@
-package racingcar.model;
+package racingcar.model.moveStrategy;
 
 import camp.nextstep.edu.missionutils.Randoms;
 
-public class RandomMoveStrategey implements MoveStrategy{
+public class RandomMoveStrategy implements MoveStrategy {
     @Override
     public boolean movable() {
         int randomValue = Randoms.pickNumberInRange(0, 9);
