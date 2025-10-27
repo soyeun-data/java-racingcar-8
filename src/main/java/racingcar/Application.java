@@ -2,6 +2,7 @@ package racingcar;
 
 import camp.nextstep.edu.missionutils.Console;
 import camp.nextstep.edu.missionutils.Randoms;
+import racingcar.model.Parser;
 import racingcar.view.Input;
 import racingcar.view.Output;
 
@@ -12,13 +13,14 @@ public class Application {
         // TODO: 프로그램 구현
         Input input = new Input();
         Output output = new Output();
+        Parser parser = new Parser();
 
         String carNames = input.readCarNames();
         int attemptCnt = input.readAttemptCnt();
 
         checkInputCarNames(carNames);
 
-        String[] nameSplit = splitCarNamesByComma(carNames);
+        String[] nameSplit = parser.splitCarNamesByComma(carNames);
 
         checkCarNames(nameSplit);
 
@@ -31,9 +33,6 @@ public class Application {
         output.printWinner(winners);
     }
 
-    public static String[] splitCarNamesByComma(String carNames) {
-        return carNames.split(",");
-    }
 
     public static Map<String, String> moveOrStop(String[] nameSplit, int attemptCnt, Output output) {
         Map<String, String> cars = new LinkedHashMap<>();
