@@ -3,6 +3,7 @@ package racingcar;
 import camp.nextstep.edu.missionutils.Console;
 import camp.nextstep.edu.missionutils.Randoms;
 import racingcar.view.Input;
+import racingcar.view.Output;
 
 import java.util.*;
 
@@ -10,6 +11,8 @@ public class Application {
     public static void main(String[] args) {
         // TODO: 프로그램 구현
         Input input = new Input();
+        Output output = new Output();
+
         String carNames = input.readCarNames();
         int attemptCnt = input.readAttemptCnt();
 
@@ -19,24 +22,20 @@ public class Application {
 
         checkCarNames(nameSplit);
 
-        Map<String, String> cars = moveOrStop(nameSplit, attemptCnt);
+        Map<String, String> cars = moveOrStop(nameSplit, attemptCnt, output);
 
         int maxLength = findMaxLength(cars);
 
         List<String> winners = findWinners(cars, maxLength);
 
-        outputWinner(winners);
+        output.printWinner(winners);
     }
 
     public static String[] splitCarNamesByComma(String carNames) {
         return carNames.split(",");
     }
 
-    public static void outputWinner(List<String> winners) {
-        System.out.println("최종 우승자 : " + String.join(", ",winners));
-    }
-
-    public static Map<String, String> moveOrStop(String[] nameSplit, int attemptCnt) {
+    public static Map<String, String> moveOrStop(String[] nameSplit, int attemptCnt, Output output) {
         Map<String, String> cars = new LinkedHashMap<>();
         for (String name : nameSplit) {
             if (cars.containsKey(name)) {
@@ -53,17 +52,9 @@ public class Application {
                     cars.put(name, cars.get(name) + "-");
                 }
             }
-            outputMoveResult(cars);
+            output.printMoveResult(cars);
         }
         return cars;
-    }
-
-    public static void outputMoveResult(Map<String, String> cars) {
-        System.out.println("실행 결과");
-        for (String name : cars.keySet()) {
-            System.out.println(name + " : " + cars.get(name));
-        }
-        System.out.println();
     }
 
     public static int findMaxLength(Map<String, String> cars) {
